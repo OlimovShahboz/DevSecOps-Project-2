@@ -119,12 +119,12 @@
         </execution>
     </executions>
     <configuration>
-        <formats>
-            <format>json</format>
-            <format>html</format>
-        </formats>
-        <nvdDatafeed>https://jeremylong.github.io/DependencyCheck/gandalf.html</nvdDatafeed>
-    </configuration>
+    <formats>
+        <format>json</format>
+        <format>html</format>
+    </formats>
+    <nvdApiKey>${nvdApiKey}</nvdApiKey>
+</configuration>
 </plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
