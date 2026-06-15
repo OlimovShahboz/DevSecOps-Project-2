@@ -36,7 +36,7 @@ stage('Stage III: SCA') {
         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         mvn org.owasp:dependency-check-maven:10.0.0:check \
           -DnvdApiKey=$NVD_API_KEY \
-          -DnvdApiDelay=10000 \
+          -DnvdApiDelay=30000 \
           -DnvdApiResultsPerPage=2000 \
           -DfailBuildOnCVSS=11
       '''
