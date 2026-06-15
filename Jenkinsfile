@@ -1,16 +1,14 @@
-
 pipeline {
   agent { label 'build' }
-   environment { 
-        registry = "shahboz01/democicd" 
-        registryCredential = 'dockerhub_jenkins'
-        NVD_API_KEY = credentials('nvd_api_key')
-   }
+  environment { 
+       registry = "shahboz01/democicd" 
+       registryCredential = 'dockerhub_jenkins'
+  }
 
   stages {
     stage('Checkout') {
       steps {
-		  git branch: 'main', credentialsId: 'GitlabCred', url: 'https://github.com/OlimovShahboz/springboot-build.git'
+		 git branch: 'main', credentialsId: 'GitlabCred', url: 'https://github.com/OlimovShahboz/springboot-build.git'
       }
     }
   
@@ -28,19 +26,19 @@ pipeline {
       }
     }
 
-stage('Stage III: SCA') {
-  steps {
-    echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
-    sh '''
-      export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-      mvn org.owasp:dependency-check-maven:10.0.0:check \
-        -DnvdApiKey=$NVD_API_KEY \
-        -DnvdApiDelay=10000 \
-        -DnvdApiResultsPerPage=2000 \
-        -DfailBuildOnCVSS=11
-    '''
-  }
-}
+   stage('Stage III: SCA') {
+     steps {
+       echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
+       sh '''
+         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+         mvn org.owasp:dependency-check-maven:10.0.0:check \
+           -DnvdApiKey="aa98294c-e304-408d-810a-90261b687ffa" \
+           -DnvdApiDelay=10000 \
+           -DnvdApiResultsPerPage=2000 \
+           -DfailBuildOnCVSS=11
+       '''
+     }
+   }
 
    stage('Stage IV: SAST') {
       steps { 
