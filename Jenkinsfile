@@ -33,6 +33,7 @@ pipeline {
       export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
       mvn org.owasp:dependency-check-maven:10.0.0:check \
         -DnvdDataFeedUrl="https://jeremylong.github.io/NVD-mirrors/nvdcve-{0}.json.gz" \
+        -DnvdaDataFeedUrl="https://jeremylong.github.io/NVD-mirrors/nvdcve-{0}.json.gz" \
         -DnvdApiKeyValid=false \
         -DnvdMode=offline \
         -Ddata.update=true \
