@@ -108,24 +108,23 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 	    <plugin>
-              <groupId>org.owasp</groupId>
-              <artifactId>dependency-check-maven</artifactId>
-              <version>7.1.1</version>
-              <executions>
-                  <execution>
-                      <goals>
-                          <goal>check</goal>
-                      </goals>
-                  </execution>
-              </executions>
-              <configuration>
-                 <formats>
-                 <format>json</format>
-                 <format>html</format>
-                 </formats>
-              </configuration>
-             </plugin>
-	    <plugin>
+    <groupId>org.owasp</groupId>
+    <artifactId>dependency-check-maven</artifactId>
+    <version>10.0.0</version> <executions>
+        <execution>
+            <goals>
+                <goal>check</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <formats>
+            <format>json</format>
+            <format>html</format>
+        </formats>
+    </configuration>
+</plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.6.201602180812</version>
