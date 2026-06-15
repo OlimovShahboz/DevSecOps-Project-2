@@ -27,11 +27,18 @@ pipeline {
     }
 
     stage('Stage III: SCA') {
-      steps { 
-        echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
-        sh "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; mvn org.owasp:dependency-check-maven:check"
-      }
-    }
+  steps {
+    echo "Running Software Composition Analysis via Local Data Stream Proxy ..."
+    sh '''
+      export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+      mvn org.owasp:dependency-check-maven:10.0.0:check \
+        -DnvdDataFeedUrl="https://jeremylong.github.io/NVD-mirrors/nvdcve-{0}.json.gz" \
+        -DnvdApiKeyValid=false \
+        -DnvdMode=offline \
+        -Ddata.update=true
+    '''
+  }
+}
 
    stage('Stage IV: SAST') {
       steps { 
