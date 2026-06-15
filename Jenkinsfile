@@ -3,7 +3,8 @@ pipeline {
   agent { label 'build' }
    environment { 
         registry = "shahboz01/democicd" 
-        registryCredential = 'dockerhub_jenkins' 
+        registryCredential = 'dockerhub_jenkins'
+        NVD_API_KEY = credentials('nvd_api_key')
    }
 
   stages {
@@ -27,12 +28,21 @@ pipeline {
       }
     }
 
-   stage('Stage III: SCA') {
-      steps { 
-        echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
-        sh "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; mvn org.owasp:dependency-check-maven:check"
-      }
+ stage('Stage III: SCA') {
+  steps {
+    echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
+    withCredentials([string(credentialsId: 'nvd_api_key', variable: 'NVD_API_KEY')]) {
+      sh '''
+        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        mvn org.owasp:dependency-check-maven:10.0.0:check \
+          -DnvdApiKey=$NVD_API_KEY \
+          -DnvdApiDelay=6000 \
+          -DnvdDatafeed=https://dependency-check.github.io/DependencyCheck_Builder/nvd_cache/ \
+          -DnvdApiResultsPerPage=2000
+      '''
     }
+  }
+}
 
    stage('Stage IV: SAST') {
       steps { 
@@ -72,14 +82,14 @@ pipeline {
    stage('Stage VII: Scan Image ') {
       steps { 
         echo "Scanning Image for Vulnerabilities"
-        sh "trivy image --scanners vuln --offline-scan adamtravis/democicd:latest > trivyresults.txt"
-        }
+        sh "trivy image --scanners vuln --offline-scan ${registry}:latest > trivyresults.txt"
+      }
     }
           
    stage('Stage VIII: Smoke Test ') {
       steps { 
         echo "Smoke Test the Image"
-        sh "docker run -d --name smokerun -p 8080:8080 adamtravis/democicd"
+        sh "docker run -d --name smokerun -p 8080:8080 ${registry}"
         sh "sleep 90; ./check.sh"
         sh "docker rm --force smokerun"
         }
