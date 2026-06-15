@@ -27,16 +27,19 @@ pipeline {
     }
 
    stage('Stage III: SCA') {
-     steps {
-       echo "Running Software Composition Analysis via Local Data Stream Proxy ..."
-       sh '''
-         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-         mvn org.owasp:dependency-check-maven:10.0.0:check \
-           -DnvdDataFeedUrl="https://jeremylong.github.io/NVD-mirrors/nvdcve-{0}.json.gz" \
-           -DfailBuildOnCVSS=11
-       '''
-     }
-   }
+  steps {
+    echo "Running Software Composition Analysis via Local Data Stream Proxy ..."
+    sh '''
+      export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+      mvn org.owasp:dependency-check-maven:10.0.0:check \
+        -DnvdDataFeedUrl="https://jeremylong.github.io/NVD-mirrors/nvdcve-{0}.json.gz" \
+        -Dnvd someApiKeyValid=false \
+        -DnvdMode=offline \
+        -Ddata.update=true \
+        -DfailBuildOnCVSS=11
+    '''
+  }
+}
 
    stage('Stage IV: SAST') {
       steps { 
