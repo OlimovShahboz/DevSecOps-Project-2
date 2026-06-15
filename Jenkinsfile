@@ -28,7 +28,7 @@ pipeline {
       }
     }
 
- stage('Stage III: SCA') {
+stage('Stage III: SCA') {
   steps {
     echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
     withCredentials([string(credentialsId: 'nvd_api_key', variable: 'NVD_API_KEY')]) {
@@ -36,14 +36,13 @@ pipeline {
         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
         mvn org.owasp:dependency-check-maven:10.0.0:check \
           -DnvdApiKey=$NVD_API_KEY \
-          -DnvdApiDelay=6000 \
-          -DnvdDatafeed=https://dependency-check.github.io/DependencyCheck_Builder/nvd_cache/ \
-          -DnvdApiResultsPerPage=2000
+          -DnvdApiDelay=10000 \
+          -DnvdApiResultsPerPage=2000 \
+          -DfailBuildOnCVSS=11
       '''
     }
   }
 }
-
    stage('Stage IV: SAST') {
       steps { 
         echo "Running Static application security testing using SonarQube Scanner ..."
