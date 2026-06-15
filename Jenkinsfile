@@ -31,18 +31,17 @@ pipeline {
 stage('Stage III: SCA') {
   steps {
     echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
-    withCredentials([string(credentialsId: 'nvd_api_key', variable: 'NVD_API_KEY')]) {
-      sh '''
-        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        mvn org.owasp:dependency-check-maven:10.0.0:check \
-          -DnvdApiKey=$NVD_API_KEY \
-          -DnvdApiDelay=30000 \
-          -DnvdApiResultsPerPage=2000 \
-          -DfailBuildOnCVSS=11
-      '''
-    }
+    sh '''
+      export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+      mvn org.owasp:dependency-check-maven:10.0.0:check \
+        -DnvdApiKey=$NVD_API_KEY \
+        -DnvdApiDelay=10000 \
+        -DnvdApiResultsPerPage=2000 \
+        -DfailBuildOnCVSS=11
+    '''
   }
 }
+
    stage('Stage IV: SAST') {
       steps { 
         echo "Running Static application security testing using SonarQube Scanner ..."
