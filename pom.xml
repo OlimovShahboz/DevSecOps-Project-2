@@ -119,7 +119,7 @@
         </execution>
     </executions>
     <configuration>
-        <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
+        <nvdApiKey>aa98294c-e304-408d-810a-90261b687ffa</nvdApiKey>
         <formats>
             <format>JSON</format>
             <format>HTML</format>
