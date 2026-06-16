@@ -119,12 +119,15 @@
         </execution>
     </executions>
     <configuration>
-        <nvdApiKey>aa98294c-e304-408d-810a-90261b687ffa</nvdApiKey>
-        <formats>
-            <format>JSON</format>
-            <format>HTML</format>
-        </formats>
-    </configuration>
+    <nvdApiKey>aa98294c-e304-408d-810a-90261b687ffa</nvdApiKey>
+    <failBuildOnCVSS>11</failBuildOnCVSS>      <!-- never fail on findings -->
+    <failOnError>false</failOnError>            <!-- don't fail if NVD unreachable -->
+    <nvdApiDelay>10000</nvdApiDelay>            <!-- 10 sec between requests -->
+    <formats>
+        <format>JSON</format>
+        <format>HTML</format>
+    </formats>
+</configuration>
 </plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
