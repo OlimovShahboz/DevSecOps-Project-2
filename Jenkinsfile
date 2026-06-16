@@ -69,11 +69,11 @@ pipeline {
     }
         
    stage('Stage VII: Scan Image ') {
-      steps { 
-        echo "Scanning Image for Vulnerabilities"
-        sh "trivy image --scanners vuln --offline-scan ${registry}:latest > trivyresults.txt"
-      }
-    }
+  steps {
+    echo "Scanning Image for Vulnerabilities"
+    sh "TRIVY_CACHE_DIR=/home/ubuntu/.cache/trivy trivy image --scanners vuln --offline-scan ${registry}:latest > trivyresults.txt"
+  }
+}
           
    stage('Stage VIII: Smoke Test ') {
       steps { 
