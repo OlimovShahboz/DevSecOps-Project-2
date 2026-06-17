@@ -4,7 +4,7 @@
 
 # PRODUCTION GRADE DEVSECOPS CICD Pipeline
 
-## Prereq: Create 2 EC2 servers
+## Prerequisite: Create 2 EC2 servers
 - [ ] Build server with 15GB storage - t2.mirco
 - [ ] Sonarqube server with 4 GB memory - t2.medium
 
